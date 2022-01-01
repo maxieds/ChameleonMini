@@ -59,42 +59,7 @@ static struct {
     } UIDSize;
 } CardCharacteristics = {0};
 
-typedef enum {
-    CardType_NXP_MIFARE_Mini = 0, // do NOT assign another CardType item with a specific value since there are loops over this type
-    CardType_NXP_MIFARE_Classic_1k,
-    CardType_NXP_MIFARE_Classic_4k,
-    CardType_NXP_MIFARE_Ultralight,
-//	CardType_NXP_MIFARE_Ultralight_C,
-//	CardType_NXP_MIFARE_Ultralight_EV1,
-    CardType_NXP_MIFARE_DESFire,
-    CardType_NXP_MIFARE_DESFire_EV1,
-    CardType_IBM_JCOP31,
-    CardType_IBM_JCOP31_v241,
-    CardType_IBM_JCOP41_v22,
-    CardType_IBM_JCOP41_v231,
-    CardType_Infineon_MIFARE_Classic_1k,
-    CardType_Gemplus_MPCOS,
-    CardType_Innovision_Jewel,
-    CardType_Nokia_MIFARE_Classic_4k_emulated_6212,
-    CardType_Nokia_MIFARE_Classic_4k_emulated_6131
-} CardType;
-
-typedef struct {
-    uint16_t ATQA;
-    bool ATQARelevant;
-
-    uint8_t SAK;
-    bool SAKRelevant;
-
-    uint8_t ATS[16];
-    uint8_t ATSSize;
-    bool ATSRelevant;
-
-    char Manufacturer[16];
-    char Type[64];
-} CardIdentificationType;
-
-static const CardIdentificationType PROGMEM CardIdentificationList[] = {
+const CardIdentificationType PROGMEM CardIdentificationList[] = {
     [CardType_NXP_MIFARE_Mini] 				= { .ATQA = 0x0004, .ATQARelevant = true, .SAK = 0x09, .SAKRelevant = true, .ATSRelevant = false, .Manufacturer = "NXP", .Type = "MIFARE Mini" },
     [CardType_NXP_MIFARE_Classic_1k] 		= { .ATQA = 0x0004, .ATQARelevant = true, .SAK = 0x08, .SAKRelevant = true, .ATSRelevant = false, .Manufacturer = "NXP", .Type = "MIFARE Classic 1k" },
     [CardType_NXP_MIFARE_Classic_4k] 		= { .ATQA = 0x0002, .ATQARelevant = true, .SAK = 0x18, .SAKRelevant = true, .ATSRelevant = false, .Manufacturer = "NXP", .Type = "MIFARE Classic 4k" },

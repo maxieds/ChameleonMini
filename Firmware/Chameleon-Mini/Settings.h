@@ -13,6 +13,7 @@
 #include "Log.h"
 #include "LED.h"
 #include "Memory.h"
+#include "Application/ManufacturerHeaderData.h"
 #include <avr/eeprom.h>
 
 #define SETTINGS_COUNT		(MEMORY_SIZE / MEMORY_SIZE_PER_SETTING)
@@ -31,6 +32,7 @@ typedef struct {
     LEDHookEnum LEDGreenFunction; /// Green LED function for this setting.
     uint16_t PendingTaskTimeout; /// Timeout for timeout commands for this setting, in multiples of 100 ms.
     uint16_t ReaderThreshold; /// Reader threshold
+    ChameleonTagManuData_t ManufacturerData; /// Support full customization of the tag header bytes on configs that support it.
 } SettingsEntryType;
 
 typedef struct {
