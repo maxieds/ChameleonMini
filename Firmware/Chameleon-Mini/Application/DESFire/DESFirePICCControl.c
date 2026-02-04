@@ -312,7 +312,17 @@ void CreatePiccApp(void) {
     }
     SelectPiccApp();
     memset(&Key, 0x00, sizeof(CryptoKeyBufferType));
+    #ifdef DESFIRE_DEFAULT_PICC_MASTER_KEY
+    int keyLength = MIN(strlen(DESFIRE_DEFAULT_PICC_MASTER_KEY), sizeof(CryptoKeyBufferType));
+    if (keyLength > 0) {
+        memcpy(&Key, (uint8_t *) DESFIRE_DEFAULT_PICC_MASTER_KEY, keyLength);
+        WriteAppKey(0x00, 0x00, Key, keyLength);
+    } else {
+        WriteAppKey(0x00, 0x00, Key, sizeof(CryptoKeyBufferType));
+    }
+    #else
     WriteAppKey(0x00, 0x00, Key, sizeof(CryptoKeyBufferType));
+    #endif
     SynchronizeAppDir();
     SynchronizePICCInfo();
 }

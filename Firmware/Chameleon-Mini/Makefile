@@ -92,8 +92,11 @@ SETTINGS	+= -DENABLE_EEPROM_SETTINGS
 #SETTINGS  += -DENABLE_CRYPTO_3DES_TESTS
 #SETTINGS  += -DENABLE_CRYPTO_AES_TESTS
 
-## Enable DESFire Gallagher app emulation (takes up extra space)
+## Enable DESFire Gallagher app emulation (takes up extra buffer space)
 #SETTINGS +=-DENABLE_DESFIRE_GALLAGHER
+
+## Set a default PICC master key loaded when the config is initialized:
+#SETTINGS +=-DDESFIRE_DEFAULT_PICC_MASTER_KEY=\"My key string...\" 
 
 ## : Enable a command to run any tests added by developers, e.g., the
 ## : crypto scheme tests that can be enabled above:
