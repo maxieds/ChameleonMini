@@ -272,7 +272,8 @@ DF_ENCMODE=AES:CBC
 
 The syntax is as follows:
 ```bash
-# Overwrites the key and IV buffers with random bytes x5 times:
+# Overwrites the key and IV buffers with random bytes x1 times. 
+# Call the command multiple times to get the desired number of overwrites:
 DF_KEYSCRUB
 ```
 

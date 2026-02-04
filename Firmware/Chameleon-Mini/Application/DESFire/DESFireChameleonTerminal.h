@@ -50,7 +50,7 @@ CommandStatusIdType CommandDESFireSetCommMode(char *OutMessage, const char *InPa
 #define DFCOMMAND_SET_ENCMODE                          "DF_ENCMODE"
 CommandStatusIdType CommandDESFireSetEncryptionMode(char *OutMessage, const char *InParams);
 
-#define DEFAULT_DESFIRE_KEYSCRUB_KILL_ROUNDS           (5)
+#define DEFAULT_DESFIRE_KEYSCRUB_KILL_ROUNDS           (1)
 #define DFCOMMAND_KEYSCRUB_KILL                        "DF_KEYSCRUB"
 CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage);
 
