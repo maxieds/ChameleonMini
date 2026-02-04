@@ -245,25 +245,19 @@ inline CommandStatusIdType CommandDESFireKeyscrubKillByRounds(char *OutMessage, 
         RandomGetBuffer(&SessionIV[0], CRYPTO_MAX_BLOCK_SIZE);
     }
     Authenticated = false;
-    AuthenticatedWithKey = 0;
+    AuthenticatedWithKey = -1;
     return COMMAND_INFO_OK;
 }
 
-CommandStatusIdType CommandDESFireKeyscrubKillDefault(char *OutMessage) {
-    return CommandDESFireKeyscrubKillByRounds(OutMessage, DEFAULT_DESFIRE_KEYSCRUB_KILL_ROUNDS);
-}
-
-CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage, const char *InParams) {
-
-    char paramValueStr[16];
+CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage) {
     int numRounds = DEFAULT_DESFIRE_KEYSCRUB_KILL_ROUNDS;
-    if (strlen(InParams) && !sscanf_P(InParams, PSTR("%d"), paramValueStr)) {
-        return COMMAND_ERR_INVALID_PARAM_ID;
-    } else if (!strlen(InParams)) {
-        numRounds = atoi(paramValueStr);
-        return CommandDESFireKeyscrubKillByRounds(OutMessage, numRounds);
+    for (int r = 0; r < numRounds; r++) {
+        RandomGetBuffer(&SessionKey[0], CRYPTO_MAX_KEY_SIZE);
+        RandomGetBuffer(&SessionIV[0], CRYPTO_MAX_BLOCK_SIZE);
     }
-    return COMMAND_ERR_INVALID_PARAM_ID;
+    Authenticated = false;
+    AuthenticatedWithKey = -1;
+    return COMMAND_INFO_OK;
 }
 
 //The rest of the file was added by tomaspre
