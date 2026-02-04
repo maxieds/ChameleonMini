@@ -96,7 +96,7 @@ SETTINGS	+= -DENABLE_EEPROM_SETTINGS
 #SETTINGS +=-DENABLE_DESFIRE_GALLAGHER
 
 ## Set a default PICC master key loaded when the config is initialized:
-#SETTINGS +=-DDESFIRE_DEFAULT_PICC_MASTER_KEY=\"My key string...\" 
+#SETTINGS +=-DDESFIRE_DEFAULT_PICC_MASTER_KEY='"My key string..."' 
 
 ## : Enable a command to run any tests added by developers, e.g., the
 ## : crypto scheme tests that can be enabled above:
