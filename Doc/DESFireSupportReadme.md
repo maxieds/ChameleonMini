@@ -272,9 +272,8 @@ DF_ENCMODE=AES:CBC
 
 The syntax is as follows:
 ```bash
-DF_KEYSCRUB [NumRounds]
+# Overwrites the key and IV buffers with random bytes x5 times:
 DF_KEYSCRUB
-DF_KEYSCRUB N
 ```
 
 ## Supported functionality
