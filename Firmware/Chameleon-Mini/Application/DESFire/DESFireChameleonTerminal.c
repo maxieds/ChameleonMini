@@ -31,8 +31,10 @@ This notice must be retained at the top of all source files where indicated.
 
 #include "../../Terminal/Terminal.h"
 #include "../../Terminal/Commands.h"
+#include "../../Random.h"
 #include "../../Settings.h"
 #include "DESFireChameleonTerminal.h"
+#include "DESFireCrypto.h"
 #include "DESFireFirmwareSettings.h"
 #include "DESFirePICCControl.h"
 #include "DESFireMemoryOperations.h"
@@ -232,6 +234,36 @@ CommandStatusIdType CommandDESFireSetEncryptionMode(char *OutParam, const char *
         __CryptoAESOpMode = ecbModeEnabled ? CRYPTO_AES_ECB_MODE : CRYPTO_AES_CBC_MODE;
     }
     return COMMAND_INFO_OK;
+}
+
+inline CommandStatusIdType CommandDESFireKeyscrubKillByRounds(char *OutMessage, int numRounds) {
+    if (numRounds <= 0) {
+        return COMMAND_ERR_INVALID_PARAM_ID;
+    }
+    for (int r = 0; r < numRounds; r++) {
+        RandomGetBuffer(&SessionKey[0], CRYPTO_MAX_KEY_SIZE);
+        RandomGetBuffer(&SessionIV[0], CRYPTO_MAX_BLOCK_SIZE);
+    }
+    Authenticated = false;
+    AuthenticatedWithKey = 0;
+    return COMMAND_INFO_OK;
+}
+
+CommandStatusIdType CommandDESFireKeyscrubKillDefault(char *OutMessage) {
+    return CommandDESFireKeyscrubKillByRounds(OutMessage, DEFAULT_DESFIRE_KEYSCRUB_KILL_ROUNDS);
+}
+
+CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage, const char *InParams) {
+
+    char paramValueStr[16];
+    int numRounds = DEFAULT_DESFIRE_KEYSCRUB_KILL_ROUNDS;
+    if (strlen(InParams) && !sscanf_P(InParams, PSTR("%d"), paramValueStr)) {
+        return COMMAND_ERR_INVALID_PARAM_ID;
+    } else if (!strlen(InParams)) {
+        numRounds = atoi(paramValueStr);
+        return CommandDESFireKeyscrubKillByRounds(OutMessage, numRounds);
+    }
+    return COMMAND_ERR_INVALID_PARAM_ID;
 }
 
 //The rest of the file was added by tomaspre

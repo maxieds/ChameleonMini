@@ -40,15 +40,20 @@ This notice must be retained at the top of all source files where indicated.
 bool IsDESFireConfiguration(void);
 
 #ifndef DISABLE_PERMISSIVE_DESFIRE_SETTINGS
-#define DFCOMMAND_SET_HEADER                  "DF_SETHDR"
+#define DFCOMMAND_SET_HEADER                           "DF_SETHDR"
 CommandStatusIdType CommandDESFireSetHeaderProperty(char *OutMessage, const char *InParams);
 #endif /* DISABLE_PERMISSIVE_DESFIRE_SETTINGS */
 
-#define DFCOMMAND_COMM_MODE                   "DF_COMM_MODE"
+#define DFCOMMAND_COMM_MODE                            "DF_COMM_MODE"
 CommandStatusIdType CommandDESFireSetCommMode(char *OutMessage, const char *InParams);
 
-#define DFCOMMAND_SET_ENCMODE                 "DF_ENCMODE"
+#define DFCOMMAND_SET_ENCMODE                          "DF_ENCMODE"
 CommandStatusIdType CommandDESFireSetEncryptionMode(char *OutMessage, const char *InParams);
+
+#define DEFAULT_DESFIRE_KEYSCRUB_KILL_ROUNDS           (2)
+#define DFCOMMAND_KEYSCRUB_KILL                        "DF_KEYSCRUB"
+CommandStatusIdType CommandDESFireKeyscrubKillDefault(char *OutMessage);
+CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage, const char *InParams);
 
 //The rest of the file was added by tomaspre
 #define DFCOMMAND_SETUP_GALLAGHER                      "DF_SETUP_GALL"

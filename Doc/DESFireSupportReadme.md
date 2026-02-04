@@ -253,7 +253,7 @@ to the defaults.
 
 #### DF_COMM_MODE -- Manually sets the communication mode of the current session
 
-This commanf sets the encryption mode for cryptographic operations. 
+This command sets the encryption mode for cryptographic operations. 
 The two supported modes are ECB and CBC. 
 The default mode for AES and DES (all types) of encryption is ECB mode. 
 This is the supported mode for DESFire tags using the latest Proxmark3 software. 
@@ -266,6 +266,15 @@ DF_ENCMODE=AES:ECB
 DF_ENCMODE=CBC
 DF_ENCMODE=DES:CBC
 DF_ENCMODE=AES:CBC
+```
+
+#### DF_KEYSCRUB -- Overwrite the encryption keys with random bytes to "scrub"
+
+The syntax is as follows:
+```bash
+DF_KEYSCRUB [NumRounds]
+DF_KEYSCRUB
+DF_KEYSCRUB N
 ```
 
 ## Supported functionality
