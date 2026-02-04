@@ -54,6 +54,8 @@ CommandStatusIdType CommandDESFireSetEncryptionMode(char *OutMessage, const char
 #define DFCOMMAND_KEYSCRUB_KILL                        "DF_KEYSCRUB"
 CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage);
 
+#ifdef ENABLE_DESFIRE_GALLAGHER
+
 //The rest of the file was added by tomaspre
 #define DFCOMMAND_SETUP_GALLAGHER                      "DF_SETUP_GALL"
 CommandStatusIdType CommandDESFireSetupGallagher(char *OutMessage, const char *InParams);
@@ -72,6 +74,8 @@ CommandStatusIdType CommandDESFireSelectGallagherApp(char *OutMessage, const cha
 
 #define DFCOMMAND_SET_GALLAGHER_SITE_KEY               "DF_SET_GALLKEY"
 CommandStatusIdType CommandDESFireSetGallagherSiteKey(char *OutMessage, const char *InParams);
+
+#endif
 
 #endif /* DESFire Support */
 

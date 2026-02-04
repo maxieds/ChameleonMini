@@ -19,6 +19,8 @@ This notice must be retained at the top of all source files where indicated.
  * Tomas Preucil (github.com/tomaspre)
  */
 
+#ifdef ENABLE_DESFIRE_GALLAGHER
+
 #ifndef CHAMELEON_MINI_DESFIREGALLAGHER_H
 #define CHAMELEON_MINI_DESFIREGALLAGHER_H
 
@@ -43,3 +45,5 @@ void SetGallagherSiteKey(uint8_t* key);
 void ResetGallagherSiteKey();
 
 #endif //CHAMELEON_MINI_DESFIREGALLAGHER_H
+
+#endif

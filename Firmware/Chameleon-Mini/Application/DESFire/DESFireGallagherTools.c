@@ -16,6 +16,8 @@
 //
 // See LICENSE.txt @ https://github.com/RfidResearchGroup/proxmark3 for the text of the license.
 
+#ifdef ENABLE_DESFIRE_GALLAGHER
+
 #include <string.h>
 #include "DESFireGallagherTools.h"
 #include "DESFireLogging.h"
@@ -186,3 +188,5 @@ void gallagher_encode_creds(uint8_t *eight_bytes, uint8_t rc, uint16_t fc, uint3
     // more obfuscation
     scramble(eight_bytes, 8);
 }
+
+#endif

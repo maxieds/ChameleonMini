@@ -43,8 +43,6 @@ This notice must be retained at the top of all source files where indicated.
 
 #include <inttypes.h>
 
-extern DESFireAidType selectedGallagherAID;
-
 bool IsDESFireConfiguration(void) {
     return GlobalSettings.ActiveSettingPtr->Configuration == CONFIG_MF_DESFIRE ||
            GlobalSettings.ActiveSettingPtr->Configuration == CONFIG_MF_DESFIRE_2KEV1 ||
@@ -260,7 +258,11 @@ CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage) {
     return COMMAND_INFO_OK;
 }
 
+#ifdef ENABLE_DESFIRE_GALLAGHER
+
 //The rest of the file was added by tomaspre
+extern DESFireAidType selectedGallagherAID;
+
 CommandStatusIdType CommandDESFireSetupGallagher(char *OutMessage, const char *InParams) {
     if (!IsDESFireConfiguration()) {
         return COMMAND_ERR_INVALID_USAGE_ID;
@@ -398,6 +400,8 @@ CommandStatusIdType CommandDESFireSetGallagherSiteKey(char *OutMessage, const ch
     snprintf_P(OutMessage, TERMINAL_BUFFER_SIZE, PSTR("NOT IMPLEMENTED"));
     return COMMAND_INFO_OK_WITH_TEXT_ID;
 }
+
+#endif
 
 #endif /* CONFIG_MF_DESFIRE_SUPPORT */
 

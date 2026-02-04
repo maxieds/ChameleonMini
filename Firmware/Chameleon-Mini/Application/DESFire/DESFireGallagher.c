@@ -19,6 +19,8 @@ This notice must be retained at the top of all source files where indicated.
  * Tomas Preucil (github.com/tomaspre)
  */
 
+#ifdef ENABLE_DESFIRE_GALLAGHER
+
 #include <string.h>
 #include "DESFireGallagher.h"
 #include "DESFireGallagherTools.h"
@@ -237,3 +239,5 @@ void SelectGallagherAID(DESFireAidType AID) {
     selectedGallagherAID[1] = AID[1];
     selectedGallagherAID[2] = AID[2];
 }
+
+#endif

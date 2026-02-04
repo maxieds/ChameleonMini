@@ -16,6 +16,8 @@
 //
 // See LICENSE.txt @ https://github.com/RfidResearchGroup/proxmark3 for the text of the license.
 
+#ifdef ENABLE_DESFIRE_GALLAGHER
+
 #ifndef CHAMELEON_MINI_DESFIREGALLAGHERTOOLS_H
 #define CHAMELEON_MINI_DESFIREGALLAGHERTOOLS_H
 
@@ -33,3 +35,5 @@ bool hfgal_diversify_key(uint8_t *site_key, uint8_t *uid, uint8_t uid_len, uint8
 void gallagher_encode_creds(uint8_t *eight_bytes, uint8_t rc, uint16_t fc, uint32_t cn, uint8_t il);
 
 #endif //CHAMELEON_MINI_DESFIREGALLAGHERTOOLS_H
+
+#endif
