@@ -36,6 +36,119 @@ This notice must be retained at the top of all source files where indicated.
 #include "DESFireFile.h"
 #include "DESFireCrypto.h"
 
+/* Build-time (make-time) DESFire tag spec defaults: */
+#ifdef DESFIRE_DEFAULT_PICC_UID
+    #define ENABLE_DESFIRE_DEFAULT_PICC_UID               (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_UID               (0)
+    #define DESFIRE_DEFAULT_PICC_UID                      ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_UID                  (7)
+
+#ifdef DESFIRE_DEFAULT_PICC_ATS
+    #define ENABLE_DESFIRE_DEFAULT_PICC_ATS               (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_ATS               (0)
+    #define DESFIRE_DEFAULT_PICC_ATS                      ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_ATS                  (6)
+
+#ifdef DESFIRE_DEFAULT_PICC_ATQA
+    #define ENABLE_DESFIRE_DEFAULT_PICC_ATQA              (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_ATQA              (0)
+    #define DESFIRE_DEFAULT_PICC_ATQA                     ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_ATQA                 (4)
+
+#ifdef DESFIRE_DEFAULT_PICC_MANUID
+    #define ENABLE_DESFIRE_DEFAULT_PICC_MANUID            (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_MANUID            (0)
+    #define DESFIRE_DEFAULT_PICC_MANUID                   ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_MANUID               (1)
+
+#ifdef DESFIRE_DEFAULT_PICC_HWTYPE
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWTYPE            (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWTYPE            (0)
+    #define DESFIRE_DEFAULT_PICC_HWTYPE                   ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_HWTYPE               (1)
+
+#ifdef DESFIRE_DEFAULT_PICC_HWSUBTYPE
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWSUBTYPE         (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWSUBTYPE         (0)
+    #define DESFIRE_DEFAULT_PICC_HWSUBTYPE                ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_HWSUBTYPE            (1)
+
+#ifdef DESFIRE_DEFAULT_PICC_HWPROTOTYPE
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWPROTOTYPE       (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWPROTOTYPE       (0)
+    #define DESFIRE_DEFAULT_PICC_HWPROTOTYPE              ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_HWPROTOTYPE          (1)
+
+#ifdef DESFIRE_DEFAULT_PICC_HWVERS
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWVERS            (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_HWVERS            (0)
+    #define DESFIRE_DEFAULT_PICC_HWVERS                   ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_HWVERS               (2)
+
+#ifdef DESFIRE_DEFAULT_PICC_SWTYPE
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWTYPE            (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWTYPE            (0)
+    #define DESFIRE_DEFAULT_PICC_SWTYPE                   ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_SWTYPE               (1)
+
+#ifdef DESFIRE_DEFAULT_PICC_SWSUBTYPE
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWSUBTYPE         (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWSUBTYPE         (0)
+    #define DESFIRE_DEFAULT_PICC_SWSUBTYPE                ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_SWSUBTYPE            (1)
+
+#ifdef DESFIRE_DEFAULT_PICC_SWPROTOTYPE
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWPROTOTYPE       (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWPROTOTYPE       (0)
+    #define DESFIRE_DEFAULT_PICC_SWPROTOTYPE              ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_SWPROTOTYPE          (1)
+
+#ifdef DESFIRE_DEFAULT_PICC_SWVERS
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWVERS            (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_SWVERS            (0)
+    #define DESFIRE_DEFAULT_PICC_SWVERS                   ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_SWVERS               (2)
+
+#ifdef DESFIRE_DEFAULT_PICC_BATCHNO
+    #define ENABLE_DESFIRE_DEFAULT_PICC_BATCHNO           (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_BATCHNO           (0)
+    #define DESFIRE_DEFAULT_PICC_BATCHNO                  ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_BATCHNO              (10)
+
+#ifdef DESFIRE_DEFAULT_PICC_PRODDATE
+    #define ENABLE_DESFIRE_DEFAULT_PICC_PRODDATE          (1)
+#else
+    #define ENABLE_DESFIRE_DEFAULT_PICC_PRODDATE          (0)
+    #define DESFIRE_DEFAULT_PICC_PRODDATE                 ((uint8_t *) { 0x00 })
+#endif
+#define BYTELEN_DESFIRE_DEFAULT_PICC_PRODDATE             (2)
+
 /*
  * Internal state variables:
  */

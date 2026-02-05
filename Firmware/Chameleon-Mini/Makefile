@@ -94,10 +94,29 @@ SETTINGS	+= -DENABLE_EEPROM_SETTINGS
 
 ## Enable DESFire Gallagher app emulation (takes up extra buffer space)
 ## WARNING: Enabling this flag results in a compilation error (too large a binary section)
-#SETTINGS +=-DENABLE_DESFIRE_GALLAGHER
+#SETTINGS += -DENABLE_DESFIRE_GALLAGHER
 
-## Set a default PICC master key loaded when the config is initialized:
-#SETTINGS +=-DDESFIRE_DEFAULT_PICC_MASTER_KEY='"My key string..."' 
+## Set a default DESFire PICC master key loaded when the config is initialized:
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_MASTER_KEY='"My key string..."' 
+
+## Manually set default DESFire PICC / tag spec settings: 
+## See also the documentation for: ``make desfire-custom-tag``
+BYTE_ARRAY_CTYPE="(uint8_t *)"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_UID="$(BYTE_ARRAY_CTYPE) { 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_ATS="$(BYTE_ARRAY_CTYPE) { 0x06, 0x75, 0x77, 0x81, 0x02, 0x80 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_ATQA="$(BYTE_ARRAY_CTYPE) { 0x44, 0x03 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_MANUID="$(BYTE_ARRAY_CTYPE) { 0x01 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_HWTYPE="$(BYTE_ARRAY_CTYPE) { 0x01 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_HWSUBTYPE="$(BYTE_ARRAY_CTYPE) { 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_HWPROTOTYPE="$(BYTE_ARRAY_CTYPE) { 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_HWVERS="$(BYTE_ARRAY_CTYPE) { 0x00, 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_SWTYPE="$(BYTE_ARRAY_CTYPE) { 0x01 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_SWSUBTYPE="$(BYTE_ARRAY_CTYPE) { 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_SWPROTOTYPE="$(BYTE_ARRAY_CTYPE) { 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_SWVERS="$(BYTE_ARRAY_CTYPE) { 0x00, 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_BATCHNO="$(BYTE_ARRAY_CTYPE) { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_PRODDATE="$(BYTE_ARRAY_CTYPE) { 0x00, 0x26 }"
+
 
 ## : Enable a command to run any tests added by developers, e.g., the
 ## : crypto scheme tests that can be enabled above:
