@@ -3,7 +3,11 @@
 /** @file */
 #include "Common.h"
 
-#ifdef MEMORY_LIMITED_TESTING
+#if defined(ENABLE_DESFIRE_GALLAGHER)
+#define LOG_SIZE            384
+#elif defined(ENABLE_DESFIRE_AES_EXTENDED)
+#define LOG_SIZE            512
+#elif defined(MEMORY_LIMITED_TESTING)
 #define LOG_SIZE            1284
 #else
 #define LOG_SIZE	          2048
