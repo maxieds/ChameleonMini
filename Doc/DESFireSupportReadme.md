@@ -311,7 +311,7 @@ DF_KEYSCRUB
 
 Support for Gallagher application emulation is enabled in 
 ``Firmware/Chameleon-Mini/Makefile`` by uncommenting the following 
-feature: ``SETTINGS +=-DENABLE_DESFIRE_GALLAGHER``. 
+feature: ``SETTINGS += -DENABLE_DESFIRE_GALLAGHER``. 
 Documentation for the Chameleon terminal commands written by 
 *@tomaspre* to configure Gallagher support is 
 [found here](https://github.com/emsec/ChameleonMini/blob/master/Doc/DESFireGallagherReadme.md).

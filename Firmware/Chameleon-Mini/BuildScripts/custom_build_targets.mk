@@ -84,8 +84,8 @@ desfire-custom-tag: SUPPORTED_TAGS_BUILD:=-DCONFIG_MF_DESFIRE_SUPPORT
 desfire-custom-tag: EXTRA_CONFIG_SETTINGS:=-DMEMORY_LIMITED_TESTING=1   \
 				-DDESFIRE_CRYPTO1_SAVE_SPACE \
 				-finline-small-functions \
-				$(./DESFireGetCustomBuildMakeFlagsFromFile.sh ../DESFireCustomConfig/desfire-custom-config.cfg)
-desfire-custom-tag: TARGET_CUSTOM_BUILD_NAME:=DESFire
+				$(shell /bin/bash DESFireGetCustomBuildMakeFlagsFromFile.sh ../DESFireCustomConfig/desfire-custom-config.cfg)
+desfire-custom-tag: TARGET_CUSTOM_BUILD_NAME:=DESFire_CUSTOM
 desfire-custom-tag: CONFIG_SETTINGS:=$(SUPPORTED_TAGS_BUILD) -DDEFAULT_CONFIGURATION=CONFIG_NONE $(EXTRA_CONFIG_SETTINGS)
 desfire-custom-tag: custom-build
 
