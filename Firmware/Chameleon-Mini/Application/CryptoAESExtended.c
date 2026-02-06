@@ -37,6 +37,9 @@ This notice must be retained at the top of all source files where indicated.
 
 #include "CryptoAESExtended.h"
 
+// The number of columns comprising a state in AES. This is a constant in AES. 
+#define Nb   (4)
+
 uint8_t CryptoType = _CRYPTO_TYPE_AES192;
 uint8_t Nk = 6;
 uint8_t Nr = 12;
@@ -126,8 +129,8 @@ void SetupLocalAESContext(AES_ctx *ctx, uint8_t cryptoType) {
         ctx->KeySize = 16;
         ctx->KeyExpSize = 176;
     }
-    ctx->RoundKey = &RoundKey;
-    ctx->Iv = &IV;
+    ctx->RoundKey = &RoundKey[0];
+    ctx->Iv = &IV[0];
     CryptoType = cryptoType;
     Nk = ctx->Nk;
     Nr = ctx->Nr;
@@ -194,7 +197,7 @@ static void KeyExpansion(uint8_t* RoundKey, const uint8_t* Key)
         tempa[3] = getSBoxValue(tempa[3]);
       }
 
-      tempa[0] = tempa[0] ^ Rcon[i/Nk];
+      tempa[0] = tempa[0] ^ RCon[i/Nk];
     }
     if (CryptoType == _CRYPTO_TYPE_AES256 && (i % Nk) == 4)
     {
@@ -214,18 +217,18 @@ static void KeyExpansion(uint8_t* RoundKey, const uint8_t* Key)
   }
 }
 
-void AES_init_ctx(struct AES_ctx* ctx, const uint8_t* key)
+void AES_init_ctx(AES_ctx* ctx, const uint8_t* key)
 {
   KeyExpansion(ctx->RoundKey, key);
 }
 
-void AES_init_ctx_iv(struct AES_ctx* ctx, const uint8_t* key, const uint8_t* iv)
+void AES_init_ctx_iv(AES_ctx* ctx, const uint8_t* key, const uint8_t* iv)
 {
   KeyExpansion(ctx->RoundKey, key);
   memcpy (ctx->Iv, iv, AES_BLOCKLEN);
 }
 
-void AES_ctx_set_iv(struct AES_ctx* ctx, const uint8_t* iv)
+void AES_ctx_set_iv(AES_ctx* ctx, const uint8_t* iv)
 {
   memcpy (ctx->Iv, iv, AES_BLOCKLEN);
 }
@@ -328,7 +331,7 @@ static uint8_t Multiply(uint8_t x, uint8_t y)
        ((y>>4 & 1) * xtime(xtime(xtime(xtime(x)))))); /* this last call to xtime() can be omitted */
   }
 
-#define getSBoxInvert(num) (rsbox[(num)])
+#define getSBoxInvert(num) (RSBox[(num)])
 
 // MixColumns function mixes the columns of the state matrix.
 // The method used to multiply may be difficult to understand for the inexperienced.
@@ -420,7 +423,6 @@ static void Cipher(state_t* state, const uint8_t* RoundKey)
   AddRoundKey(Nr, state, RoundKey);
 }
 
-#if (defined(CBC) && CBC == 1) || (defined(ECB) && ECB == 1)
 static void InvCipher(state_t* state, const uint8_t* RoundKey)
 {
   uint8_t round = 0;
@@ -449,13 +451,13 @@ static void InvCipher(state_t* state, const uint8_t* RoundKey)
 /* Public functions:                                                         */
 /*****************************************************************************/
 
-void AES_ECB_encrypt(const struct AES_ctx* ctx, uint8_t* buf)
+void AES_ECB_encrypt(const AES_ctx* ctx, uint8_t* buf)
 {
   // The next function call encrypts the PlainText with the Key using AES algorithm.
   Cipher((state_t*)buf, ctx->RoundKey);
 }
 
-void AES_ECB_decrypt(const struct AES_ctx* ctx, uint8_t* buf)
+void AES_ECB_decrypt(const AES_ctx* ctx, uint8_t* buf)
 {
   // The next function call decrypts the PlainText with the Key using AES algorithm.
   InvCipher((state_t*)buf, ctx->RoundKey);
@@ -470,7 +472,7 @@ static void XorWithIv(uint8_t* buf, const uint8_t* Iv)
   }
 }
 
-void AES_CBC_encrypt_buffer(struct AES_ctx *ctx, uint8_t* buf, size_t length)
+void AES_CBC_encrypt_buffer(AES_ctx *ctx, uint8_t* buf, size_t length)
 {
   size_t i;
   uint8_t *Iv = ctx->Iv;
@@ -485,7 +487,7 @@ void AES_CBC_encrypt_buffer(struct AES_ctx *ctx, uint8_t* buf, size_t length)
   memcpy(ctx->Iv, Iv, AES_BLOCKLEN);
 }
 
-void AES_CBC_decrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length)
+void AES_CBC_decrypt_buffer(AES_ctx* ctx, uint8_t* buf, size_t length)
 {
   size_t i;
   uint8_t storeNextIv[AES_BLOCKLEN];
@@ -503,7 +505,7 @@ void AES_CBC_decrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length)
 /* Symmetrical operation: same function for encrypting as for decrypting. 
  * Note any IV/nonce should never be reused with the same key. 
  */
-void AES_CTR_xcrypt_buffer(struct AES_ctx* ctx, uint8_t* buf, size_t length)
+void AES_CTR_xcrypt_buffer(AES_ctx* ctx, uint8_t* buf, size_t length)
 {
   uint8_t buffer[AES_BLOCKLEN];
   

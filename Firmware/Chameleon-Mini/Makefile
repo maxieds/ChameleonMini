@@ -247,6 +247,7 @@ SRC         +=  Application/MifareUltralight.c \
 		Application/CryptoTDEA-HWAccelerated.S \
 		Application/CryptoTDEA.c \
 		Application/CryptoAES128.c \
+		Application/CryptoAESExtended.c \
 		Application/CryptoCMAC.c
 SRC         +=  Application/NTAG215.c
 SRC         +=  Application/Vicinity.c \
