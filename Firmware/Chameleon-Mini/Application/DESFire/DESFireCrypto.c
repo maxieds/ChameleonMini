@@ -168,7 +168,7 @@ BYTE GetCryptoKeyTypeFromAuthenticateMethod(BYTE authCmdMethod) {
     switch (authCmdMethod) {
         case CMD_AUTHENTICATE_AES:
         case CMD_AUTHENTICATE_EV2_FIRST:
-        case CMD_AUTHENTICATE_EV2_NONFIRST:
+        case CMD_AUTHENTICATE_EV2_NONFIRST: {
             if (DesfireCommMode == DESFIRE_COMMS_CIPHERTEXT_AES192) {
                 return CRYPTO_TYPE_AES192;
             } else if (DesfireCommMode == DESFIRE_COMMS_CIPHERTEXT_AES256) {
@@ -176,6 +176,7 @@ BYTE GetCryptoKeyTypeFromAuthenticateMethod(BYTE authCmdMethod) {
             } else {
                 return CRYPTO_TYPE_AES128;
             }
+        }
         case CMD_AUTHENTICATE_ISO:
             return CRYPTO_TYPE_DES;
         case CMD_AUTHENTICATE:
