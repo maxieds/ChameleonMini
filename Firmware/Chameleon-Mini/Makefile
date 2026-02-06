@@ -92,6 +92,9 @@ SETTINGS	+= -DENABLE_EEPROM_SETTINGS
 #SETTINGS  += -DENABLE_CRYPTO_3DES_TESTS
 #SETTINGS  += -DENABLE_CRYPTO_AES_TESTS
 
+## Enable software support for AES-192 and AES-256 encryption modes:
+SETTINGS += -DENABLE_DESFIRE_AES_EXTENDED
+
 ## Enable DESFire Gallagher app emulation (takes up extra buffer space)
 ## WARNING: Enabling this flag results in a compilation error (too large a binary section)
 #SETTINGS += -DENABLE_DESFIRE_GALLAGHER
@@ -111,7 +114,7 @@ SETTINGS	+= -DENABLE_EEPROM_SETTINGS
 #SETTINGS += -DDESFIRE_DEFAULT_PICC_HWVERS="(uint8_t *) { 0x00, 0x00 }"
 #SETTINGS += -DDESFIRE_DEFAULT_PICC_SWTYPE="(uint8_t *) { 0x01 }"
 #SETTINGS += -DDESFIRE_DEFAULT_PICC_SWSUBTYPE="(uint8_t *) { 0x00 }"
-3SETTINGS += -DDESFIRE_DEFAULT_PICC_SWPROTOTYPE="(uint8_t *) { 0x00 }"
+#SETTINGS += -DDESFIRE_DEFAULT_PICC_SWPROTOTYPE="(uint8_t *) { 0x00 }"
 #SETTINGS += -DDESFIRE_DEFAULT_PICC_SWVERS="(uint8_t *) { 0x00, 0x00 }"
 #SETTINGS += -DDESFIRE_DEFAULT_PICC_BATCHNO="(uint8_t *) { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }"
 #SETTINGS += -DDESFIRE_DEFAULT_PICC_PRODDATE="(uint8_t *) { 0x00, 0x26 }"
