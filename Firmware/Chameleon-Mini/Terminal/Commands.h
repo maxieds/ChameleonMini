@@ -56,8 +56,10 @@ typedef struct {
     CommandGetFuncType GetFunc;
 } CommandEntryType;
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 #define COMMAND_VERSION       "VERSION"
 CommandStatusIdType CommandGetVersion(char *OutParam);
+#endif
 
 #define COMMAND_CONFIG        "CONFIG"
 CommandStatusIdType CommandGetConfig(char *OutParam);
@@ -68,9 +70,11 @@ CommandStatusIdType CommandSetConfig(char *OutMessage, const char *InParam);
 CommandStatusIdType CommandGetUid(char *OutParam);
 CommandStatusIdType CommandSetUid(char *OutMessage, const char *InParam);
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 #define COMMAND_READONLY      "READONLY"
 CommandStatusIdType CommandGetReadOnly(char *OutParam);
 CommandStatusIdType CommandSetReadOnly(char *OutMessage, const char *InParam);
+#endif
 
 #define COMMAND_UPLOAD        "UPLOAD"
 CommandStatusIdType CommandExecUpload(char *OutMessage);
@@ -84,6 +88,7 @@ CommandStatusIdType CommandExecReset(char *OutMessage);
 #define COMMAND_UPGRADE       "UPGRADE"
 CommandStatusIdType CommandExecUpgrade(char *OutMessage);
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 #define COMMAND_MEMSIZE       "MEMSIZE"
 CommandStatusIdType CommandGetMemSize(char *OutParam);
 
@@ -118,6 +123,7 @@ CommandStatusIdType CommandSetLedRed(char *OutMessage, const char *InParam);
 #define COMMAND_PIN           "PIN"
 CommandStatusIdType CommandGetPin(char *OutParam);
 CommandStatusIdType CommandSetPin(char *OutMessage, const char *InParam);
+#endif
 
 #define COMMAND_LOGMODE       "LOGMODE"
 CommandStatusIdType CommandGetLogMode(char *OutParam);
@@ -135,9 +141,11 @@ CommandStatusIdType CommandExecStoreLog(char *OutMessage);
 #define COMMAND_LOGCLEAR	     "LOGCLEAR"
 CommandStatusIdType CommandExecLogClear(char *OutMessage);
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 #define COMMAND_SETTING		"SETTING"
 CommandStatusIdType CommandGetSetting(char *OutParam);
 CommandStatusIdType CommandSetSetting(char *OutMessage, const char *InParam);
+#endif
 
 #define COMMAND_CLEAR		"CLEAR"
 CommandStatusIdType CommandExecClear(char *OutMessage);
@@ -148,12 +156,15 @@ CommandStatusIdType CommandExecStore(char *OutMessage);
 #define COMMAND_RECALL		"RECALL"
 CommandStatusIdType CommandExecRecall(char *OutMessage);
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 #define COMMAND_CHARGING 	"CHARGING"
 CommandStatusIdType CommandGetCharging(char *OutParam);
+#endif
 
 #define COMMAND_HELP          "HELP"
 CommandStatusIdType CommandExecHelp(char *OutMessage);
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 #define COMMAND_RSSI		"RSSI"
 CommandStatusIdType CommandGetRssi(char *OutParam);
 
@@ -201,6 +212,7 @@ CommandStatusIdType CommandExecClone(char *OutMessage);
 CommandStatusIdType CommandGetAutoThreshold(char *OutParam);
 CommandStatusIdType CommandSetAutoThreshold(char *OutMessage, const char *InParam);
 #endif /*#ifdef CONFIG_ISO15693_SNIFF_SUPPORT*/
+#endif
 
 #ifdef ENABLE_RUNTESTS_TERMINAL_COMMAND
 #include "../Tests/ChameleonTerminal.h"

@@ -40,6 +40,7 @@
 #include "Commands.h"
 
 const PROGMEM CommandEntryType CommandTable[] = {
+    #ifndef RESTRICT_CHAMELEON_TERMINAL
     {
         .Command    = COMMAND_VERSION,
         .ExecFunc   = NO_FUNCTION,
@@ -47,6 +48,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc    = NO_FUNCTION,
         .GetFunc    = CommandGetVersion,
     },
+    #endif
     {
         .Command    = COMMAND_CONFIG,
         .ExecFunc   = NO_FUNCTION,
@@ -61,6 +63,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc    = CommandSetUid,
         .GetFunc    = CommandGetUid
     },
+    #ifndef RESTRICT_CHAMELEON_TERMINAL
     {
         .Command    = COMMAND_READONLY,
         .ExecFunc   = NO_FUNCTION,
@@ -69,6 +72,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc    = CommandSetReadOnly
 
     },
+    #endif
     {
         .Command    = COMMAND_UPLOAD,
         .ExecFunc   = CommandExecUpload,
@@ -99,6 +103,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .GetFunc    = NO_FUNCTION
     },
 #endif
+    #ifndef RESTRICT_CHAMELEON_TERMINAL
     {
         .Command    = COMMAND_MEMSIZE,
         .ExecFunc   = NO_FUNCTION,
@@ -162,6 +167,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc    = CommandSetPin,
         .GetFunc    = CommandGetPin
     },
+    #endif
     {
         .Command    = COMMAND_LOGMODE,
         .ExecFunc   = NO_FUNCTION,
@@ -197,6 +203,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc    = NO_FUNCTION,
         .GetFunc    = NO_FUNCTION
     },
+    #ifndef RESTRICT_CHAMELEON_TERMINAL
     {
         .Command	= COMMAND_SETTING,
         .ExecFunc	= NO_FUNCTION,
@@ -204,6 +211,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc	= CommandSetSetting,
         .GetFunc	= CommandGetSetting
     },
+    #endif
     {
         .Command	= COMMAND_CLEAR,
         .ExecFunc	= CommandExecClear,
@@ -225,6 +233,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc	= NO_FUNCTION,
         .GetFunc	= NO_FUNCTION
     },
+    #ifndef RESTRICT_CHAMELEON_TERMINAL
     {
         .Command    = COMMAND_CHARGING,
         .ExecFunc   = NO_FUNCTION,
@@ -232,6 +241,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc    = NO_FUNCTION,
         .GetFunc    = CommandGetCharging
     },
+    #endif
     {
         .Command    = COMMAND_HELP,
         .ExecFunc   = CommandExecHelp,
@@ -239,6 +249,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .SetFunc    = NO_FUNCTION,
         .GetFunc    = NO_FUNCTION
     },
+    #ifndef RESTRICT_CHAMELEON_TERMINAL
     {
         .Command	= COMMAND_RSSI,
         .ExecFunc 	= NO_FUNCTION,
@@ -343,6 +354,7 @@ const PROGMEM CommandEntryType CommandTable[] = {
         .GetFunc        = CommandGetAutoThreshold
     },
 #endif
+    #endif
 #ifdef ENABLE_RUNTESTS_TERMINAL_COMMAND
 #include "../Tests/ChameleonTerminalInclude.c"
 #endif

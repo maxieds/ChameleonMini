@@ -27,6 +27,7 @@ extern Sniff14443Command Sniff14443CurrentCommand;
 
 extern const PROGMEM CommandEntryType CommandTable[];
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 CommandStatusIdType CommandGetVersion(char *OutParam) {
     snprintf_P(OutParam, TERMINAL_BUFFER_SIZE,
                PSTR(
@@ -38,6 +39,7 @@ CommandStatusIdType CommandGetVersion(char *OutParam) {
 
     return COMMAND_INFO_OK_WITH_TEXT_ID;
 }
+#endif
 
 CommandStatusIdType CommandGetConfig(char *OutParam) {
     ConfigurationGetByName(OutParam, TERMINAL_BUFFER_SIZE);
@@ -102,6 +104,7 @@ CommandStatusIdType CommandSetUid(char *OutMessage, const char *InParam) {
     return COMMAND_INFO_OK_ID;
 }
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 CommandStatusIdType CommandGetReadOnly(char *OutParam) {
     if (ActiveConfiguration.ReadOnly) {
         OutParam[0] = COMMAND_CHAR_TRUE;
@@ -130,6 +133,7 @@ CommandStatusIdType CommandSetReadOnly(char *OutMessage, const char *InParam) {
 
     return COMMAND_ERR_INVALID_PARAM_ID;
 }
+#endif
 
 CommandStatusIdType CommandExecUpload(char *OutMessage) {
     XModemReceive(MemoryUploadBlock);
@@ -161,6 +165,7 @@ CommandStatusIdType CommandExecUpgrade(char *OutMessage) {
 }
 #endif
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 CommandStatusIdType CommandGetMemSize(char *OutParam) {
     snprintf_P(OutParam, TERMINAL_BUFFER_SIZE, PSTR("%u"), ActiveConfiguration.MemorySize);
 
@@ -305,6 +310,7 @@ CommandStatusIdType CommandSetPin(char *OutMessage, const char *InParam) {
         return COMMAND_ERR_INVALID_PARAM_ID;
     }
 }
+#endif
 
 CommandStatusIdType CommandGetLogMode(char *OutParam) {
     /* Get Logmode */
@@ -350,6 +356,7 @@ CommandStatusIdType CommandExecLogClear(char *OutMessage) {
     return COMMAND_INFO_OK_ID;
 }
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 CommandStatusIdType CommandGetSetting(char *OutParam) {
     SettingsGetActiveByName(OutParam, TERMINAL_BUFFER_SIZE);
     return COMMAND_INFO_OK_WITH_TEXT_ID;
@@ -362,6 +369,7 @@ CommandStatusIdType CommandSetSetting(char *OutMessage, const char *InParam) {
         return COMMAND_ERR_INVALID_PARAM_ID;
     }
 }
+#endif
 
 CommandStatusIdType CommandExecClear(char *OutMessage) {
     MemoryClear();
@@ -378,6 +386,7 @@ CommandStatusIdType CommandExecRecall(char *OutMessage) {
     return COMMAND_INFO_OK_ID;
 }
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 CommandStatusIdType CommandGetCharging(char *OutMessage) {
     if (BatteryIsCharging()) {
         return COMMAND_INFO_TRUE_ID;
@@ -385,6 +394,7 @@ CommandStatusIdType CommandGetCharging(char *OutMessage) {
         return COMMAND_INFO_FALSE_ID;
     }
 }
+#endif
 
 CommandStatusIdType CommandExecHelp(char *OutMessage) {
     const CommandEntryType *EntryPtr = CommandTable;
@@ -411,6 +421,7 @@ CommandStatusIdType CommandExecHelp(char *OutMessage) {
     return COMMAND_INFO_OK_WITH_TEXT_ID;
 }
 
+#ifndef RESTRICT_CHAMELEON_TERMINAL
 CommandStatusIdType CommandGetRssi(char *OutParam) {
     snprintf_P(OutParam, TERMINAL_BUFFER_SIZE,
                PSTR("%5u mV"), AntennaLevelGet());
@@ -743,3 +754,4 @@ CommandStatusIdType CommandSetAutoThreshold(char *OutMessage, const char *InPara
     }
 }
 #endif /*#ifdef CONFIG_ISO15693_SNIFF_SUPPORT*/
+#endif
