@@ -39,8 +39,11 @@ This notice must be retained at the top of all source files where indicated.
 #include "DESFireLogging.h"
 #include "System.h"
 
-CryptoKeyBufferType SessionKey = { 0 };
-CryptoIVBufferType SessionIV = { 0 };
+CryptoKeyBufferType SessionKey = { 0x00 };
+CryptoIVBufferType SessionIV = { 
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+};
 BYTE SessionIVByteSize = 0;
 BYTE DesfireCommMode = DESFIRE_DEFAULT_COMMS_STANDARD;
 
@@ -81,10 +84,14 @@ BYTE GetDefaultCryptoMethodKeySize(uint8_t cryptoType) {
         case CRYPTO_TYPE_3K3DES:
             return CRYPTO_3KTDEA_KEY_SIZE;
         case CRYPTO_TYPE_AES128:
-            return CRYPTO_AES_BLOCK_SIZE;
+            return 16;
+        case CRYPTO_TYPE_AES192:
+            return 24;
+        case CRYPTO_TYPE_AES256:
+            return 32;
         case CRYPTO_TYPE_DES:
         default:
-            return CRYPTO_DES_BLOCK_SIZE;
+            return CRYPTO_DES_KEY_SIZE;
     }
 }
 
@@ -96,6 +103,10 @@ BYTE GetCryptoMethodCommSettings(uint8_t cryptoType) {
             return DESFIRE_COMMS_CIPHERTEXT_DES;
         case CRYPTO_TYPE_AES128:
             return DESFIRE_COMMS_CIPHERTEXT_AES128;
+        case CRYPTO_TYPE_AES192:
+            return DESFIRE_COMMS_CIPHERTEXT_AES192;
+        case CRYPTO_TYPE_AES256:
+            return DESFIRE_COMMS_CIPHERTEXT_AES256;
         default:
             return DESFIRE_COMMS_PLAINTEXT;
     }
@@ -128,6 +139,24 @@ bool generateSessionKey(uint8_t *sessionKey, uint8_t *rndA, uint8_t *rndB, uint1
             memcpy(sessionKey + 8, rndA + 12, 4);
             memcpy(sessionKey + 12, rndB + 12, 4);
             break;
+        case CRYPTO_TYPE_AES192:
+            memcpy(sessionKey, rndA, 4);
+            memcpy(sessionKey + 4, rndB, 4);
+            memcpy(sessionKey + 8, rndA + 12, 4);
+            memcpy(sessionKey + 12, rndB + 12, 4);
+            memcpy(sessionKey + 16, rndA + 16, 4);
+            memcpy(sessionKey + 20, rndB + 16, 4);
+            break;
+        case CRYPTO_TYPE_AES256:
+            memcpy(sessionKey, rndA, 4);
+            memcpy(sessionKey + 4, rndB, 4);
+            memcpy(sessionKey + 8, rndA + 12, 4);
+            memcpy(sessionKey + 12, rndB + 12, 4);
+            memcpy(sessionKey + 16, rndA + 16, 4);
+            memcpy(sessionKey + 20, rndB + 16, 4);
+            memcpy(sessionKey + 24, rndA + 20, 4);
+            memcpy(sessionKey + 28, rndB + 20, 4);
+            break;
         default:
             return false;
     }
@@ -139,7 +168,13 @@ BYTE GetCryptoKeyTypeFromAuthenticateMethod(BYTE authCmdMethod) {
         case CMD_AUTHENTICATE_AES:
         case CMD_AUTHENTICATE_EV2_FIRST:
         case CMD_AUTHENTICATE_EV2_NONFIRST:
-            return CRYPTO_TYPE_AES128;
+            if (DesfireCommMode == DESFIRE_COMMS_CIPHERTEXT_AES192) {
+                return CRYPTO_TYPE_AES192;
+            } else if (DesfireCommMode == DESFIRE_COMMS_CIPHERTEXT_AES256) {
+                return CRYPTO_TYPE_AES256;
+            } else {
+                return CRYPTO_TYPE_AES128;
+            }
         case CMD_AUTHENTICATE_ISO:
             return CRYPTO_TYPE_DES;
         case CMD_AUTHENTICATE:
@@ -152,7 +187,12 @@ BYTE GetCryptoKeyTypeFromAuthenticateMethod(BYTE authCmdMethod) {
 
 void InitAESCryptoKeyData(void) {
     memset(&SessionKey[0], 0x00, CRYPTO_MAX_KEY_SIZE);
-    memset(&SessionIV[0], 0x00, CRYPTO_MAX_BLOCK_SIZE);
+    /* NOTE: We should not use the same IV buffer with the same key 
+     *       for AES encryption. So we should just initialize the IV 
+     *       buffer to zeros when defining the extern above and then 
+     *       remove the next line.
+     */
+    //memset(&SessionIV[0], 0x00, CRYPTO_MAX_BLOCK_SIZE);
 }
 
 #endif /* CONFIG_MF_DESFIRE_SUPPORT */

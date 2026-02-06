@@ -188,6 +188,14 @@ CommandStatusIdType CommandDESFireSetCommMode(char *OutParam, const char *InPara
         DesfireCommMode = DESFIRE_COMMS_CIPHERTEXT_AES128;
         DesfireCommandState.ActiveCommMode = DesfireCommMode;
         return COMMAND_INFO_OK;
+    } else if (!strcasecmp_P(valueStr, PSTR("Enciphered:AES192"))) {
+        DesfireCommMode = DESFIRE_COMMS_CIPHERTEXT_AES192;
+        DesfireCommandState.ActiveCommMode = DesfireCommMode;
+        return COMMAND_INFO_OK;
+    } else if (!strcasecmp_P(valueStr, PSTR("Enciphered:AES256"))) {
+        DesfireCommMode = DESFIRE_COMMS_CIPHERTEXT_AES256;
+        DesfireCommandState.ActiveCommMode = DesfireCommMode;
+        return COMMAND_INFO_OK;
     }
     return COMMAND_ERR_INVALID_USAGE_ID;
 }

@@ -51,37 +51,38 @@ typedef struct {
     int KeyExpSize;
     uint8_t *RoundKey;
     uint8_t *Iv;
-} AES_ctx;
+} AES_ctx_t;
 
 extern uint8_t AESCryptoType;
 extern uint8_t Nk;
 extern uint8_t Nr;
 extern uint8_t AES_KEYLEN;
 extern uint8_t AES_keyExpSize;
+extern AES_ctx_t AES_ctx; 
 extern uint8_t RoundKey[CRYPTO_AES_MAX_KEY_EXPSIZE];
 extern uint8_t IV[AES_BLOCKLEN];
 extern const uint8_t SBox[256];
 extern const uint8_t RSBox[256];
 extern const uint8_t RCon[11];
 
-void SetupLocalAESContext(AES_ctx *ctx, uint8_t cryptoType);
+void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType);
 
-void AES_init_ctx(AES_ctx* ctx, const uint8_t* key);
-void AES_init_ctx_iv(AES_ctx* ctx, const uint8_t* key, const uint8_t* iv);
-void AES_ctx_set_iv(AES_ctx* ctx, const uint8_t* iv);
+void AES_init_ctx(AES_ctx_t* ctx, const uint8_t* key);
+void AES_init_ctx_iv(AES_ctx_t* ctx, const uint8_t* key, const uint8_t* iv);
+void AES_ctx_set_iv(AES_ctx_t* ctx, const uint8_t* iv);
 
 // Buffer size is exactly AES_BLOCKLEN bytes. 
 // You need only AES_init_ctx as IV is not used in ECB.
 // NB: ECB is considered insecure for most uses.
-void AES_ECB_encrypt(const AES_ctx* ctx, uint8_t* buf);
-void AES_ECB_decrypt(const AES_ctx* ctx, uint8_t* buf);
+void AES_ECB_encrypt(const AES_ctx_t* ctx, uint8_t* buf);
+void AES_ECB_decrypt(const AES_ctx_t* ctx, uint8_t* buf);
 
 // Buffer size MUST be mutile of AES_BLOCKLEN.
 // See https://en.wikipedia.org/wiki/Padding_(cryptography)#PKCS7 for padding scheme.
 // NOTES: you need to set IV in ctx via AES_init_ctx_iv() or AES_ctx_set_iv()
 //        no IV should ever be reused with the same key 
-void AES_CBC_encrypt_buffer(AES_ctx* ctx, uint8_t* buf, size_t length);
-void AES_CBC_decrypt_buffer(AES_ctx* ctx, uint8_t* buf, size_t length);
+void AES_CBC_encrypt_buffer(AES_ctx_t* ctx, uint8_t* buf, size_t length);
+void AES_CBC_decrypt_buffer(AES_ctx_t* ctx, uint8_t* buf, size_t length);
 
 #endif
 

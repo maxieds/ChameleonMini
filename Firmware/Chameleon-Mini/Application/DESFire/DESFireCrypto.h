@@ -61,6 +61,12 @@ extern BYTE DesfireCommMode;
 #define CRYPTO_TYPE_AES192      (0x8A)
 #define CRYPTO_TYPE_AES256      (0xDA)
 
+#ifdef ENABLE_DESFIRE_AES_EXTENDED
+    #define DESFIRE_AES_EXTENDED       (1)
+#else 
+    #define DESFIRE_AES_EXTENDED       (0)
+#endif
+
 #define CryptoTypeDES(ct)    \
     ((ct == CRYPTO_TYPE_DES) || (ct == CRYPTO_TYPE_ANY))
 #define CryptoType2KTDEA(ct) \
@@ -81,7 +87,7 @@ extern BYTE DesfireCommMode;
 #endif
 #define CRYPTO_MAX_BLOCK_SIZE                (16)
 #define DESFIRE_AES_IV_SIZE                  (CRYPTO_AES_BLOCK_SIZE)
-#define CRYPTO_CHALLENGE_RESPONSE_BYTES      (16)
+#define CRYPTO_CHALLENGE_RESPONSE_BYTES      (CRYPTO_MAX_KEY_SIZE)
 
 typedef BYTE CryptoKeyBufferType[CRYPTO_MAX_KEY_SIZE];
 typedef BYTE CryptoIVBufferType[CRYPTO_MAX_BLOCK_SIZE];

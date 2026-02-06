@@ -1858,7 +1858,7 @@ uint16_t DesfireCmdAuthenticate3KTDEA1(uint8_t *Buffer, uint16_t ByteCount) {
     if (cryptoKeyType == CRYPTO_TYPE_ANY || cryptoKeyType == CRYPTO_TYPE_3K3DES) {
         keySize = GetDefaultCryptoMethodKeySize(CRYPTO_TYPE_3K3DES);
         DesfireCommandState.CryptoMethodType = CRYPTO_TYPE_3K3DES;
-    } else if (cryptoKeyType == CRYPTO_TYPE_AES128) {
+    } else if (CryptoTypeAES(cryptoKeyType)) {
         return DesfireCmdAuthenticateAES1(Buffer, ByteCount);
     } else if (cryptoKeyType == CRYPTO_TYPE_DES) {
         return EV0CmdAuthenticateLegacy1(Buffer, ByteCount);
@@ -2044,23 +2044,44 @@ uint16_t DesfireCmdAuthenticateAES1(uint8_t *Buffer, uint16_t ByteCount) {
     if (!CryptoTypeAES(cryptoKeyType)) {
         Buffer[0] = STATUS_NO_SUCH_KEY;
         return DESFIRE_STATUS_RESPONSE_SIZE;
+    } else if (cryptoKeyType == CRYPTO_TYPE_AES128) {
+        InitAESCryptoKeyData();
+    } else if (DESFIRE_AES_EXTENDED) {
+        InitAESCryptoKeyData();
+    } else { // unsupported AES encryption method
+        Buffer[0] = STATUS_NO_SUCH_KEY;
+        return DESFIRE_STATUS_RESPONSE_SIZE;
     }
-    InitAESCryptoKeyData();
 
-    keySize = GetDefaultCryptoMethodKeySize(CRYPTO_TYPE_AES128);
-    Key = SessionKey;
-    IVBuffer = SessionIV;
+    keySize = GetDefaultCryptoMethodKeySize(DesfireCommMode);
+    Key = &SessionKey[0];
+    IVBuffer = &SessionIV[0];
 
     /* Indicate that we are in AES key authentication land */
     DesfireCommandState.KeyId = KeyId;
-    DesfireCommandState.CryptoMethodType = CRYPTO_TYPE_AES128;
+    if (CryptoTypeAES(cryptoKeyType)) {
+       DesfireCommandState.CryptoMethodType = cryptoKeyType;
+    } else {
+        DesfireCommandState.CryptoMethodType = CRYPTO_TYPE_AES128;
+    }
 
     /* Fetch the key */
     ReadAppKey(SelectedApp.Slot, KeyId, Key, keySize);
     DesfireLogEntry(LOG_APP_AUTH_KEY, (const void *) Key, keySize);
-    CryptoAESGetConfigDefaults(&AESCryptoContext);
-    CryptoAESInitContext(&AESCryptoContext);
-
+    if (DesfireCommandState.CryptoMethodType == CRYPTO_TYPE_AES128) {
+        CryptoAESGetConfigDefaults(&AESCryptoContext);
+        CryptoAESInitContext(&AESCryptoContext);
+    } else if (DESFIRE_AES_EXTENDED) {
+       #ifdef ENABLE_DESFIRE_AES_EXTENDED
+       SetupLocalAESContext(&AES_ctx, cryptoKeyType);
+       AES_init_ctx(&AES_ctx, Key);
+       AES_init_ctx_iv(&AES_ctx, Key, IVBuffer);
+       #endif
+    } else { // unsupported AES encryption method
+        Buffer[0] = STATUS_NO_SUCH_KEY;
+        return DESFIRE_STATUS_RESPONSE_SIZE;
+    }
+    
     /* Generate the nonce B (RndB / Challenge response) */
     if (!DesfireDebuggingOn) {
         RandomGetBuffer(&(DesfireCommandState.RndB[0]), CRYPTO_CHALLENGE_RESPONSE_BYTES);

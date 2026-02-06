@@ -45,6 +45,7 @@ uint8_t Nk = 6;
 uint8_t Nr = 12;
 uint8_t AES_KEYLEN = 24;
 uint8_t AES_keyExpSize = 208;
+AES_ctx_t AES_ctx;
 uint8_t RoundKey[CRYPTO_AES_MAX_KEY_EXPSIZE];
 uint8_t IV[AES_BLOCKLEN];
 
@@ -112,7 +113,7 @@ const uint8_t RCon[11] = {
    0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36 
 };
 
-void SetupLocalAESContext(AES_ctx *ctx, uint8_t cryptoType) {
+void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType) {
     if (cryptoType == _CRYPTO_TYPE_AES192) {
         ctx->Nk = 6;
         ctx->Nr = 12;
@@ -217,18 +218,18 @@ static void KeyExpansion(uint8_t* RoundKey, const uint8_t* Key)
   }
 }
 
-void AES_init_ctx(AES_ctx* ctx, const uint8_t* key)
+void AES_init_ctx(AES_ctx_t* ctx, const uint8_t* key)
 {
   KeyExpansion(ctx->RoundKey, key);
 }
 
-void AES_init_ctx_iv(AES_ctx* ctx, const uint8_t* key, const uint8_t* iv)
+void AES_init_ctx_iv(AES_ctx_t* ctx, const uint8_t* key, const uint8_t* iv)
 {
   KeyExpansion(ctx->RoundKey, key);
   memcpy (ctx->Iv, iv, AES_BLOCKLEN);
 }
 
-void AES_ctx_set_iv(AES_ctx* ctx, const uint8_t* iv)
+void AES_ctx_set_iv(AES_ctx_t* ctx, const uint8_t* iv)
 {
   memcpy (ctx->Iv, iv, AES_BLOCKLEN);
 }
@@ -451,13 +452,13 @@ static void InvCipher(state_t* state, const uint8_t* RoundKey)
 /* Public functions:                                                         */
 /*****************************************************************************/
 
-void AES_ECB_encrypt(const AES_ctx* ctx, uint8_t* buf)
+void AES_ECB_encrypt(const AES_ctx_t* ctx, uint8_t* buf)
 {
   // The next function call encrypts the PlainText with the Key using AES algorithm.
   Cipher((state_t*)buf, ctx->RoundKey);
 }
 
-void AES_ECB_decrypt(const AES_ctx* ctx, uint8_t* buf)
+void AES_ECB_decrypt(const AES_ctx_t* ctx, uint8_t* buf)
 {
   // The next function call decrypts the PlainText with the Key using AES algorithm.
   InvCipher((state_t*)buf, ctx->RoundKey);
@@ -472,7 +473,7 @@ static void XorWithIv(uint8_t* buf, const uint8_t* Iv)
   }
 }
 
-void AES_CBC_encrypt_buffer(AES_ctx *ctx, uint8_t* buf, size_t length)
+void AES_CBC_encrypt_buffer(AES_ctx_t *ctx, uint8_t* buf, size_t length)
 {
   size_t i;
   uint8_t *Iv = ctx->Iv;
@@ -487,7 +488,7 @@ void AES_CBC_encrypt_buffer(AES_ctx *ctx, uint8_t* buf, size_t length)
   memcpy(ctx->Iv, Iv, AES_BLOCKLEN);
 }
 
-void AES_CBC_decrypt_buffer(AES_ctx* ctx, uint8_t* buf, size_t length)
+void AES_CBC_decrypt_buffer(AES_ctx_t* ctx, uint8_t* buf, size_t length)
 {
   size_t i;
   uint8_t storeNextIv[AES_BLOCKLEN];
@@ -505,7 +506,7 @@ void AES_CBC_decrypt_buffer(AES_ctx* ctx, uint8_t* buf, size_t length)
 /* Symmetrical operation: same function for encrypting as for decrypting. 
  * Note any IV/nonce should never be reused with the same key. 
  */
-void AES_CTR_xcrypt_buffer(AES_ctx* ctx, uint8_t* buf, size_t length)
+void AES_CTR_xcrypt_buffer(AES_ctx_t* ctx, uint8_t* buf, size_t length)
 {
   uint8_t buffer[AES_BLOCKLEN];
   
