@@ -27,6 +27,8 @@
 #include "DESFirePICCControl.h"
 #include "DESFireStatusCodes.h"
 
+extern const uint8_t scrambleLutBuffer[256];
+
 //bool MifareKdfAn10922(uint8_t *key, uint8_t CryptoType, const uint8_t *data, size_t len, uint8_t *diversified_key);
 //uint8_t mfdes_kdf_input_gallagher(uint8_t *uid, uint8_t uidLen, uint8_t keyNo, uint32_t aid, uint8_t *kdfInputOut, uint8_t *kdfInputLen);
 bool hfgal_diversify_key(uint8_t *site_key, uint8_t *uid, uint8_t uid_len, uint8_t key_num, DESFireAidType aid, uint8_t *key_output);

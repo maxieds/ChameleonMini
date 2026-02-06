@@ -30,6 +30,9 @@ This notice must be retained at the top of all source files where indicated.
 #include "DESFirePICCControl.h"
 #include "DESFireStatusCodes.h"
 
+extern DESFireAidType selectedGallagherAID;
+extern uint8_t *GallagherSiteKey;
+
 //Warning - running this function resets the AUTH state!
 bool CreateGallagherCard(uint32_t cardId, uint16_t facilityId, uint8_t issueLevel, uint8_t regionCode);
 
