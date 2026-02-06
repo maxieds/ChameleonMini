@@ -101,6 +101,7 @@ extern uint8_t AuthenticatedWithKey;
 extern bool    AuthenticatedWithPICCMasterKey;
 extern uint8_t CryptoAuthMethod;
 extern uint8_t ActiveCommMode;
+extern uint8_t DesfireEncMode;
 
 /* Need to invalidate the authentication state after:
  * 1) Selecting a new application;

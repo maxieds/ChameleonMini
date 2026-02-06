@@ -55,6 +55,7 @@ uint8_t AuthenticatedWithKey = DESFIRE_NOT_AUTHENTICATED;
 bool AuthenticatedWithPICCMasterKey = false;
 uint8_t CryptoAuthMethod = CRYPTO_TYPE_ANY;
 uint8_t ActiveCommMode = DESFIRE_DEFAULT_COMMS_STANDARD;
+uint8_t DesfireEncMode = 0x00; // ECB by default
 
 void InvalidateAuthState(BYTE keepPICCAuthData) {
     if (!keepPICCAuthData) {

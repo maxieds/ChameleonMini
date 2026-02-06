@@ -36,6 +36,7 @@ This notice must be retained at the top of all source files where indicated.
 #include <string.h>
 
 #include "CryptoAESExtended.h"
+#include "CryptoAES128.h"
 
 // The number of columns comprising a state in AES. This is a constant in AES. 
 #define Nb   (4)
@@ -113,7 +114,7 @@ const uint8_t RCon[11] = {
    0x8d, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36 
 };
 
-void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType) {
+void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType, uint8_t cryptoMode) {
     if (cryptoType == _CRYPTO_TYPE_AES192) {
         ctx->Nk = 6;
         ctx->Nr = 12;
@@ -130,6 +131,7 @@ void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType) {
         ctx->KeySize = 16;
         ctx->KeyExpSize = 176;
     }
+    ctx->CryptoMode = cryptoMode;
     ctx->RoundKey = &RoundKey[0];
     ctx->Iv = &IV[0];
     CryptoType = cryptoType;
@@ -137,6 +139,30 @@ void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType) {
     Nr = ctx->Nr;
     AES_KEYLEN = ctx->KeySize;
     AES_keyExpSize = ctx->KeyExpSize;
+}
+
+uint8_t AESEncryptBuffer(const AES_ctx_t *ctx, uint8_t *buf, int bufLength) {
+    if (ctx->CryptoMode == CRYPTO_AES_ECB_MODE) {
+        AES_ECB_encrypt(ctx, buf);
+    } else { // CBC mode assumed:
+        if ((bufLength % AES_BLOCKLEN) != 0) {
+            return CRYPTO_AES_EXIT_UNEVEN_BLOCKS; // 0xBE ???
+        }
+        AES_CBC_encrypt_buffer(ctx, buf, bufLength);
+    }
+    return CRYPTO_AES_EXIT_SUCCESS;
+}
+
+uint8_t AESDecryptBuffer(const AES_ctx_t *ctx, uint8_t *buf, int bufLength) {
+    if (ctx->CryptoMode == CRYPTO_AES_ECB_MODE) {
+        AES_ECB_decrypt(ctx, buf);
+    } else { // CBC mode assumed:
+        if ((bufLength % AES_BLOCKLEN) != 0) {
+            return CRYPTO_AES_EXIT_UNEVEN_BLOCKS; // 0xBE ???
+        }
+        AES_CBC_decrypt_buffer(ctx, buf, bufLength);
+    }
+    return CRYPTO_AES_EXIT_SUCCESS;
 }
 
 /*****************************************************************************/

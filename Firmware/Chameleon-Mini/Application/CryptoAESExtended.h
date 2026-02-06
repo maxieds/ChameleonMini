@@ -49,6 +49,7 @@ typedef struct {
     int Nr; // The number of rounds in AES Cipher.
     int KeySize;
     int KeyExpSize;
+    uint8_t CryptoMode;
     uint8_t *RoundKey;
     uint8_t *Iv;
 } AES_ctx_t;
@@ -65,7 +66,9 @@ extern const uint8_t SBox[256];
 extern const uint8_t RSBox[256];
 extern const uint8_t RCon[11];
 
-void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType);
+void SetupLocalAESContext(AES_ctx_t *ctx, uint8_t cryptoType, uint8_t cryptoMode);
+uint8_t AESEncryptBuffer(const AES_ctx_t *ctx, uint8_t *buf, int bufLength);
+uint8_t AESDecryptBuffer(const AES_ctx_t *ctx, uint8_t *buf, int bufLength);
 
 void AES_init_ctx(AES_ctx_t* ctx, const uint8_t* key);
 void AES_init_ctx_iv(AES_ctx_t* ctx, const uint8_t* key, const uint8_t* iv);

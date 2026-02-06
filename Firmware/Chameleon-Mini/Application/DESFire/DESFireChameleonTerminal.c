@@ -228,8 +228,10 @@ CommandStatusIdType CommandDESFireSetEncryptionMode(char *OutParam, const char *
     }
     if (!strcasecmp_P(modeStartPos, PSTR("ECB"))) {
         ecbModeEnabled = true;
+        DesfireEncMode = CRYPTO_AES_ECB_MODE;
     } else if (!strcasecmp_P(modeStartPos, PSTR("CBC"))) {
         ecbModeEnabled = false;
+        DesfireEncMode = CRYPTO_AES_CBC_MODE;
     } else {
         return COMMAND_ERR_INVALID_USAGE_ID;
     }

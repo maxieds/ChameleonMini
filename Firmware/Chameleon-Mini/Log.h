@@ -6,7 +6,7 @@
 #if defined(ENABLE_DESFIRE_GALLAGHER)
 #define LOG_SIZE            256
 #elif defined(ENABLE_DESFIRE_AES_EXTENDED)
-#define LOG_SIZE            1284
+#define LOG_SIZE            512
 #elif defined(MEMORY_LIMITED_TESTING)
 #define LOG_SIZE            1284
 #else

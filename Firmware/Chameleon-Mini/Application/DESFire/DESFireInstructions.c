@@ -2073,7 +2073,7 @@ uint16_t DesfireCmdAuthenticateAES1(uint8_t *Buffer, uint16_t ByteCount) {
         CryptoAESInitContext(&AESCryptoContext);
     } else if (DESFIRE_AES_EXTENDED) {
        #ifdef ENABLE_DESFIRE_AES_EXTENDED
-       SetupLocalAESContext(&AES_ctx, cryptoKeyType);
+       SetupLocalAESContext(&AES_ctx, cryptoKeyType, DesfireEncMode);
        AES_init_ctx(&AES_ctx, Key);
        AES_init_ctx_iv(&AES_ctx, Key, IVBuffer);
        #endif
@@ -2108,8 +2108,19 @@ uint16_t DesfireCmdAuthenticateAES1(uint8_t *Buffer, uint16_t ByteCount) {
 
     /* Encrypt RndB with the selected key and transfer it back to the PCD */
     DesfireLogEntry(LOG_APP_SESSION_IV, (void *) IVBuffer, CRYPTO_CHALLENGE_RESPONSE_BYTES);
-    Status = CryptoAESEncryptBuffer(CRYPTO_CHALLENGE_RESPONSE_BYTES, DesfireCommandState.RndB,
-                                    &Buffer[1], IVBuffer, Key);
+    
+    if (DesfireCommandState.CryptoMethodType == CRYPTO_TYPE_AES128) {
+        Status = CryptoAESEncryptBuffer(CRYPTO_CHALLENGE_RESPONSE_BYTES, 
+                                        DesfireCommandState.RndB,
+                                        &Buffer[1], IVBuffer, Key);
+    } else if (DESFIRE_AES_EXTENDED) {
+       #ifdef ENABLE_DESFIRE_AES_EXTENDED
+       Status = AESEncryptBuffer(&AES_ctx, &Buffer[1], CRYPTO_CHALLENGE_RESPONSE_BYTES);
+       #endif
+    } else { // unsupported AES encryption method
+        Buffer[0] = STATUS_NO_SUCH_KEY;
+        return DESFIRE_STATUS_RESPONSE_SIZE;
+    }
     DesfireLogEntry(LOG_APP_SESSION_IV, (void *) IVBuffer, CRYPTO_CHALLENGE_RESPONSE_BYTES);
 
     if (Status != STATUS_OPERATION_OK) {
