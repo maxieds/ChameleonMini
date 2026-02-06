@@ -97,7 +97,7 @@ SETTINGS += -DENABLE_DESFIRE_AES_EXTENDED
 
 ## Enable DESFire Gallagher app emulation (takes up extra buffer space)
 ## WARNING: Enabling this flag results in a compilation error (too large a binary section)
-#SETTINGS += -DENABLE_DESFIRE_GALLAGHER -UENABLE_DESFIRE_AES_EXTENDED -DRESTRICT_CHAMELEON_TERMINAL
+SETTINGS += -DENABLE_DESFIRE_GALLAGHER -DRESTRICT_CHAMELEON_TERMINAL
 
 ## Set a default DESFire PICC master key loaded when the config is initialized:
 #SETTINGS += -DDESFIRE_DEFAULT_PICC_MASTER_KEY='"My key string..."' 
