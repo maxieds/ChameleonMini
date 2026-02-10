@@ -87,7 +87,7 @@ extern BYTE DesfireCommMode;
 #endif
 #define CRYPTO_MAX_BLOCK_SIZE                (16)
 #define DESFIRE_AES_IV_SIZE                  (CRYPTO_AES_BLOCK_SIZE)
-#define CRYPTO_CHALLENGE_RESPONSE_BYTES      (CRYPTO_MAX_KEY_SIZE)
+#define CRYPTO_CHALLENGE_RESPONSE_BYTES      (CRYPTO_MAX_BLOCK_SIZE)
 
 typedef BYTE CryptoKeyBufferType[CRYPTO_MAX_KEY_SIZE];
 typedef BYTE CryptoIVBufferType[CRYPTO_MAX_BLOCK_SIZE];

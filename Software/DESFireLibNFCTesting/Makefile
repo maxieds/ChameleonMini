@@ -13,10 +13,16 @@ LDFLAGS_BASE= $(CFLAGS) -lc `pkg-config libnfc --libs` \
 		 -L/usr/local/opt/openssl/lib -L/usr/lib64 -lssl -lcrypto
 
 ifeq ("$(shell uname -s)", "Darwin")
-    CC=/usr/local/opt/llvm/bin/clang-13
-    CFLAGS=$(CFLAGS_BASE) -I/usr/local/opt/llvm/include
-    LD=/usr/local/opt/llvm/bin/clang-13
-    LDFLAGS=$(LDFLAGS_BASE) -L/usr/local/opt/llvm/lib
+    # MacOS LLVM installed with brew:
+    #CC=/usr/local/opt/llvm/bin/clang-13
+    #CFLAGS=$(CFLAGS_BASE) -I/usr/local/opt/llvm/include
+    #LD=/usr/local/opt/llvm/bin/clang-13
+    #LDFLAGS=$(LDFLAGS_BASE) -L/usr/local/opt/llvm/lib
+    # Older MacOS LLVM installed with MacPorts:
+    CC=/opt/local/bin/clang-mp-13
+    CFLAGS=$(CFLAGS_BASE) -I/opt/local/include
+    LD=/opt/local/bin/clang-mp-13
+    LDFLAGS=$(LDFLAGS_BASE) -L/opt/local/lib
 else
     CFLAGS=$(CFLAGS_BASE)
     LDFLAGS=$(LDFLAGS_BASE)
@@ -53,6 +59,9 @@ UTILS_SOURCE=LocalInclude/Config.h           \
 FILE_BASENAMES=NFCAntiCollisionMod                              \
 			   TestAuthenticateLegacy               \
 			   TestAuthenticateISO                  \
+			   TestAuthenticateAES128               \
+			   TestAuthenticateAES192               \
+			   TestAuthenticateAES256               \
 			   TestGeneralCommands                  \
 			   TestGeneralCommands2                 \
 			   TestKeyManagementCommands            \

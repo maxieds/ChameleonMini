@@ -258,13 +258,20 @@ following links:
 
 #### DF_COMM_MODE -- Manually sets the communication mode of the current session
 
-The supported (work in progress) DESFire communication modes include: 
-PLAINTEXT, PLAINTEXT-MAC, ENCIPHERED-CMAC-3DES, and ENCIPHERED-CMAC-AES128. 
+The supported communication modes include: 
+``PLAINTEXT``, ``PLAINTEXT-MAC``, ``ENCIPHERED-CMAC-3DES``, and 
+``ENCIPHERED-CMAC-AES128`` (built-in hardware AES support). 
+If the DESFire build is configured with 
+``SETTINGS += -DENABLE_DESFIRE_AES_EXTENDED``, and 
+[Gallagher support](https://github.com/emsec/ChameleonMini/blob/master/Doc/DESFireGallagherReadme.md)
+is disabled, then we also have the software-based communication modes: 
+``ENCIPHERED-CMAC-AES192`` and ``ENCIPHERED-CMAC-AES-256``. 
 It should be clear from the prior commands issued in the session which ``CommMode`` 
 congiguration we are supposed to be working within. This command let's the user 
 reset it intentionally at will for testing and debugging purposes. 
 
-The syntax is as follows:
+The syntax for setting the communication mode using the Chameleon 
+terminal command line is as follows:
 ```bash
 DF_COMM_MODE=Plaintext
 DF_COMM_MODE=Plaintext:MAC
