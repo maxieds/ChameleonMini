@@ -31,7 +31,7 @@ This notice must be retained at the top of all source files where indicated.
  *       https://github.com/kokke/tiny-AES-c
  */
 
-#ifdef ENABLE_DESFIRE_AES_EXTENDED
+#if defined(CONFIG_MF_DESFIRE_SUPPORT) && defined(ENABLE_DESFIRE_AES_EXTENDED)
 
 #include <string.h>
 
