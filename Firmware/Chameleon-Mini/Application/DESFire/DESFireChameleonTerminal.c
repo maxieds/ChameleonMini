@@ -236,25 +236,14 @@ CommandStatusIdType CommandDESFireSetEncryptionMode(char *OutParam, const char *
         return COMMAND_ERR_INVALID_USAGE_ID;
     }
     if (setDESCryptoMode) {
-        __CryptoDESOpMode = ecbModeEnabled ? CRYPTO_DES_ECB_MODE : CRYPTO_DES_CBC_MODE;
+        __CryptoDESOpMode = ecbModeEnabled ? CRYPTO_DES_ECB_MODE : 
+                                             CRYPTO_DES_CBC_MODE;
     }
     if (setAESCryptoMode) {
-        __CryptoAESOpMode = ecbModeEnabled ? CRYPTO_AES_ECB_MODE : CRYPTO_AES_CBC_MODE;
+        __CryptoAESOpMode = ecbModeEnabled ? CRYPTO_AES_ECB_MODE : 
+                                             CRYPTO_AES_CBC_MODE;
     }
-    return COMMAND_INFO_OK;
-}
-
-inline CommandStatusIdType CommandDESFireKeyscrubKillByRounds(char *OutMessage, int numRounds) {
-    if (numRounds <= 0) {
-        return COMMAND_ERR_INVALID_PARAM_ID;
-    }
-    for (int r = 0; r < numRounds; r++) {
-        RandomGetBuffer(&SessionKey[0], CRYPTO_MAX_KEY_SIZE);
-        RandomGetBuffer(&SessionIV[0], CRYPTO_MAX_BLOCK_SIZE);
-    }
-    Authenticated = false;
-    AuthenticatedWithKey = -1;
-    return COMMAND_INFO_OK;
+    return COMMAND_INFO_OK_ID;
 }
 
 CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage) {
@@ -265,7 +254,7 @@ CommandStatusIdType CommandDESFireKeyscrubKill(char *OutMessage) {
     }
     Authenticated = false;
     AuthenticatedWithKey = -1;
-    return COMMAND_INFO_OK;
+    return COMMAND_INFO_OK_ID;
 }
 
 #ifdef ENABLE_DESFIRE_GALLAGHER
