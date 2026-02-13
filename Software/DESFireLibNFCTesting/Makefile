@@ -11,7 +11,8 @@ CFLAGS_BASE= -ILocalInclude -ISource        \
 		-DHOST_BUILD -DCRYPTO_AES_DEFAULT=1
 #LD=gcc-10   # for MacOS
 LD=gcc
-LDFLAGS_BASE= $(CFLAGS) -lc `pkg-config libnfc --libs` \
+LDFLAGS_BASE= $(CFLAGS) -lc $(shell greadlink -f ~/libnfc/.libs/libnfc.6.dylib) \
+     `pkg-config libnfc --libs`                         \
 		 -L/usr/local/opt/openssl/lib -lssl -lcrypto
 
 ifeq ("$(shell uname -s)", "Darwin")
